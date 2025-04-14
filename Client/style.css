@@ -1,0 +1,199 @@
+body {
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f8;
+  margin: 0;
+  padding-bottom: 50px;
+  color: #333;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 15px 40px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 22px;
+  color: #27ae60;
+}
+
+.logo span {
+  color: #888;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  position: relative;
+}
+
+.nav-links li {
+  position: relative;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+}
+
+.nav-links .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 35px;
+  left: 0;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.nav-links .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu li a {
+  display: block;
+  padding: 10px 20px;
+  color: #444;
+  white-space: nowrap;
+}
+
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.auth .login {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+.auth .register {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Giới thiệu & tìm kiếm */
+.intro {
+  text-align: center;
+  padding: 30px 20px;
+}
+
+.intro h1 {
+  font-size: 26px;
+  color: #2c3e50;
+}
+
+.intro p {
+  font-size: 16px;
+  color: #555;
+  margin: 10px 0 20px;
+}
+
+.search-box {
+  display: inline-flex;
+  gap: 10px;
+}
+
+.search-box input {
+  padding: 8px 12px;
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.search-box button {
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Ảnh đại diện nhóm */
+.categories {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.category {
+  text-align: center;
+  cursor: pointer;
+}
+
+.category img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.category img:hover {
+  transform: scale(1.05);
+}
+
+.category p {
+  margin-top: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Danh sách món ăn */
+.food-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.food-card {
+  width: 200px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  text-align: center;
+}
+
+.food-card img.food-img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.food-info {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.food-info img.icon {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}

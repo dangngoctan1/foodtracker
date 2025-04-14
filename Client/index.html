@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang Theo Dõi Dinh Dưỡng</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+      <div class="logo">dinhduong.<span>tanpaquan</span></div>
+
+      <ul class="nav-links">
+        <li class="dropdown">
+          <a href="#">Món ăn</a>
+          <ul class="dropdown-menu">
+            <li><a href="#" onclick="showCategory('dongvat')">Động vật</a></li>
+            <li><a href="#" onclick="showCategory('raucu')">Rau củ</a></li>
+            <li><a href="#" onclick="showCategory('traicay')">Trái cây</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#">Dinh dưỡng</a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Calo là gì?</a></li>
+            <li><a href="#">Protein là gì?</a></li>
+            <li><a href="#">Thực đơn gợi ý</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#">Tính năng</a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Tính tổng calo</a></li>
+            <li><a href="#">Lưu lịch sử</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="auth">
+        <a href="#" class="login">Đăng nhập</a>
+        <button class="register">Đăng ký</button>
+      </div>
+    </nav>
+
+    <!-- GIỚI THIỆU & TÌM KIẾM -->
+    <section class="intro">
+      <h1>Chào mừng bạn đến với hệ thống theo dõi dinh dưỡng!</h1>
+      <p>
+        Giúp bạn theo dõi lượng calo và protein trong từng bữa ăn để có chế độ
+        dinh dưỡng hợp lý nhất.
+      </p>
+      <div class="search-box">
+        <input type="text" placeholder="Tìm kiếm món ăn..." />
+        <button>Tìm</button>
+      </div>
+    </section>
+
+    <!-- 3 ẢNH ĐẠI DIỆN -->
+    <section class="categories">
+      <div class="category" onclick="showCategory('dongvat')">
+        <img src="images/dongvatdaidien.jpg" alt="Động vật" />
+        <p>Thức ăn từ động vật</p>
+      </div>
+      <div class="category" onclick="showCategory('raucu')">
+        <img src="images/raucudaidien.jpg" alt="Rau củ" />
+        <p>Rau củ tươi xanh</p>
+      </div>
+      <div class="category" onclick="showCategory('traicay')">
+        <img src="images/traicaydaidien.jpg" alt="Trái cây" />
+        <p>Trái cây bổ dưỡng</p>
+      </div>
+    </section>
+
+    <!-- DANH SÁCH MÓN ĂN -->
+    <section id="food-list" class="food-list">
+      <!-- JS sẽ đẩy dữ liệu ở đây -->
+    </section>
+
+    <script src="script.js"></script>
+  </body>
+</html>
