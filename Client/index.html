@@ -5,15 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trang Theo Dõi Dinh Dưỡng</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast hidden"></div>
+
     <!-- NAVBAR -->
     <nav class="navbar">
       <div class="logo">dinhduong.<span>tanpaquan</span></div>
 
       <ul class="nav-links">
         <li class="dropdown">
-          <a href="#">Món ăn</a>
+          <a href="#" class="dropdown-toggle">Món ăn</a>
           <ul class="dropdown-menu">
             <li><a href="#" onclick="showCategory('dongvat')">Động vật</a></li>
             <li><a href="#" onclick="showCategory('raucu')">Rau củ</a></li>
@@ -21,24 +28,26 @@
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#">Dinh dưỡng</a>
+          <a href="#" class="dropdown-toggle">Dinh dưỡng</a>
           <ul class="dropdown-menu">
-            <li><a href="#">Calo là gì?</a></li>
-            <li><a href="#">Protein là gì?</a></li>
-            <li><a href="#">Thực đơn gợi ý</a></li>
+            <li><a href="#" onclick="showCaloInfo()">Calo là gì?</a></li>
+            <li><a href="#" onclick="showProteinInfo()">Protein là gì?</a></li>
+            <li>
+              <a href="#" onclick="showMealSuggestions()">Thực đơn gợi ý</a>
+            </li>
           </ul>
         </li>
         <li class="dropdown">
-          <a href="#">Tính năng</a>
+          <a href="#" class="dropdown-toggle">Tính năng</a>
           <ul class="dropdown-menu">
-            <li><a href="#">Tính tổng calo</a></li>
-            <li><a href="#">Lưu lịch sử</a></li>
+            <li><a href="#" onclick="showMealPlan()">Xem thực đơn</a></li>
+            <li><a href="#" onclick="showHistory()">Lịch sử</a></li>
           </ul>
         </li>
       </ul>
 
       <div class="auth">
-        <a href="#" class="login">Đăng nhập</a>
+        <a href="#" class="login" onclick="toggleLogin()">Đăng nhập</a>
         <button class="register">Đăng ký</button>
       </div>
     </nav>
@@ -46,13 +55,10 @@
     <!-- GIỚI THIỆU & TÌM KIẾM -->
     <section class="intro">
       <h1>Chào mừng bạn đến với hệ thống theo dõi dinh dưỡng!</h1>
-      <p>
-        Giúp bạn theo dõi lượng calo và protein trong từng bữa ăn để có chế độ
-        dinh dưỡng hợp lý nhất.
-      </p>
+      <p>Theo dõi lượng calo và protein để có chế độ dinh dưỡng hợp lý nhất.</p>
       <div class="search-box">
-        <input type="text" placeholder="Tìm kiếm món ăn..." />
-        <button>Tìm</button>
+        <input type="text" id="search-input" placeholder="Tìm kiếm món ăn..." />
+        <button onclick="searchFoods()">Tìm</button>
       </div>
     </section>
 
@@ -71,10 +77,188 @@
         <p>Trái cây bổ dưỡng</p>
       </div>
     </section>
-    aa
+
     <!-- DANH SÁCH MÓN ĂN -->
-    <section id="food-list" class="food-list">
-      <!-- JS sẽ đẩy dữ liệu ở đây -->
+    <section id="food-section" class="food-section">
+      <h2 id="category-title" class="category-title hidden"></h2>
+      <div id="food-list" class="food-list"></div>
+    </section>
+
+    <!-- MẸO DINH DƯỠNG -->
+    <section id="nutrition-tips" class="nutrition-tips hidden">
+      <h2>Mẹo dinh dưỡng</h2>
+      <div class="tips-container">
+        <div class="tip-card">
+          <h3>Kết hợp protein và chất xơ</h3>
+          <p>
+            Kết hợp thực phẩm giàu protein như thịt gà với rau củ để no lâu hơn
+            và hỗ trợ tiêu hóa.
+          </p>
+        </div>
+        <div class="tip-card">
+          <h3>Hạn chế calo rỗng</h3>
+          <p>
+            Tránh các món ăn chứa nhiều đường hoặc chất béo không lành mạnh như
+            đồ chiên rán.
+          </p>
+        </div>
+        <div class="tip-card">
+          <h3>Uống đủ nước</h3>
+          <p>
+            Uống 2-3 lít nước mỗi ngày giúp cơ thể trao đổi chất tốt hơn và giảm
+            cảm giác thèm ăn.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- DINH DƯỠNG SECTION -->
+    <section id="nutrition-section" class="nutrition-section hidden">
+      <div id="calo-info" class="nutrition-content hidden">
+        <h2>Calo là gì?</h2>
+        <p>
+          Calo là đơn vị đo lường năng lượng mà cơ thể bạn nhận được từ thực
+          phẩm và sử dụng để duy trì các hoạt động sống như thở, đi lại, và suy
+          nghĩ. Mỗi người cần một lượng calo khác nhau tùy thuộc vào độ tuổi,
+          cân nặng, chiều cao, và mức độ hoạt động.
+        </p>
+        <div class="calo-calculator">
+          <h3>Tính lượng calo cần thiết mỗi ngày</h3>
+          <div class="input-group">
+            <label>Tuổi (18-100):</label>
+            <input
+              type="number"
+              id="age"
+              placeholder="Nhập tuổi của bạn"
+              min="18"
+              max="100"
+            />
+          </div>
+          <div class="input-group">
+            <label>Cân nặng (30-200 kg):</label>
+            <input
+              type="number"
+              id="weight"
+              placeholder="Nhập cân nặng"
+              min="30"
+              max="200"
+            />
+          </div>
+          <div class="input-group">
+            <label>Chiều cao (100-250 cm):</label>
+            <input
+              type="number"
+              id="height"
+              placeholder="Nhập chiều cao"
+              min="100"
+              max="250"
+            />
+          </div>
+          <div class="input-group">
+            <label>Mức độ hoạt động:</label>
+            <select id="activity">
+              <option value="1.2">Ít vận động</option>
+              <option value="1.375">Vận động nhẹ</option>
+              <option value="1.55">Vận động vừa</option>
+              <option value="1.725">Vận động nhiều</option>
+              <option value="1.9">Vận động rất nhiều</option>
+            </select>
+          </div>
+          <button onclick="calculateCaloNeeds()">Tính</button>
+          <p id="calo-result"></p>
+        </div>
+      </div>
+
+      <div id="protein-info" class="nutrition-content hidden">
+        <h2>Protein là gì?</h2>
+        <p>
+          Protein là một chất dinh dưỡng thiết yếu giúp xây dựng và sửa chữa các
+          mô trong cơ thể, bao gồm cơ bắp, da, và tóc. Protein cũng đóng vai trò
+          quan trọng trong việc sản xuất enzyme và hormone.
+        </p>
+        <div id="protein-recommendation" class="protein-recommendation hidden">
+          <h3>Nhu cầu protein hàng ngày của bạn</h3>
+          <p id="protein-needs"></p>
+          <div class="protein-progress">
+            <h4>Lượng protein hôm nay</h4>
+            <div class="progress-bar">
+              <div id="protein-progress-bar" class="progress-fill"></div>
+            </div>
+            <p id="protein-progress-text"></p>
+          </div>
+        </div>
+        <div class="protein-sources">
+          <h3>Nguồn protein phổ biến</h3>
+          <div class="source-container">
+            <div class="source-card">
+              <h4>Động vật</h4>
+              <p>
+                Thịt gà, cá hồi, trứng: Giàu protein và axit amin thiết yếu.
+              </p>
+            </div>
+            <div class="source-card">
+              <h4>Thực vật</h4>
+              <p>Đậu hũ, đậu lăng, hạt chia: Lựa chọn tốt cho người ăn chay.</p>
+            </div>
+          </div>
+        </div>
+        <div class="protein-comparison">
+          <h3>So sánh hàm lượng protein</h3>
+          <div id="protein-chart" class="protein-chart"></div>
+        </div>
+        <div class="protein-tips">
+          <h3>Mẹo tăng lượng protein</h3>
+          <ul>
+            <li>Thêm hạt và quả hạch vào bữa sáng.</li>
+            <li>Kết hợp đậu vào món salad hoặc súp.</li>
+            <li>Ăn nhẹ với sữa chua Hy Lạp hoặc phô mai ít béo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div id="meal-suggestions" class="nutrition-content hidden">
+        <h2>Thực đơn gợi ý</h2>
+        <p>Dưới đây là thực đơn gợi ý cho một ngày với chế độ ăn cân bằng:</p>
+        <div class="meal-suggestion">
+          <div class="meal-card">
+            <h3>Bữa sáng</h3>
+            <p>1 quả chuối (105 kcal, 1.3g protein)</p>
+            <p>1 cốc sữa (120 kcal, 8g protein)</p>
+            <p><strong>Tổng:</strong> 225 kcal, 9.3g protein</p>
+          </div>
+          <div class="meal-card">
+            <h3>Bữa trưa</h3>
+            <p>100g thịt gà (250 kcal, 30g protein)</p>
+            <p>1 chén bông cải (55 kcal, 3.7g protein)</p>
+            <p><strong>Tổng:</strong> 305 kcal, 33.7g protein</p>
+          </div>
+          <div class="meal-card">
+            <h3>Bữa tối</h3>
+            <p>100g cá hồi (200 kcal, 26g protein)</p>
+            <p>1 quả táo (95 kcal, 0.5g protein)</p>
+            <p><strong>Tổng:</strong> 295 kcal, 26.5g protein</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THỰC ĐƠN HIỆN TẠI -->
+    <section id="meal-plan" class="meal-plan hidden">
+      <h2>Thực đơn của bạn</h2>
+      <div class="meal-totals hidden" id="meal-totals">
+        <p>
+          <strong>Tổng calories:</strong> <span id="total-calories"></span> kcal
+        </p>
+        <p><strong>Tổng protein:</strong> <span id="total-protein"></span>g</p>
+      </div>
+      <div id="meal-list" class="food-list"></div>
+      <button onclick="saveMealToHistory()" class="save-btn">Lưu bữa ăn</button>
+    </section>
+
+    <!-- LỊCH SỬ BỮA ĂN -->
+    <section id="history" class="history hidden">
+      <h2>Lịch sử bữa ăn</h2>
+      <div id="history-list"></div>
     </section>
 
     <script src="script.js"></script>

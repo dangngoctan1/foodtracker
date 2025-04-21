@@ -1,9 +1,43 @@
 body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f4f6f8;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f7fafc 0%, #e6f0fa 100%);
   margin: 0;
-  padding-bottom: 50px;
-  color: #333;
+  padding-bottom: 60px;
+  color: #1e3a8a;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Subtle fitness pattern overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" opacity="0.05"><path d="M10 50 A40 40 0 0 1 90 50 A40 40 0 0 1 10 50 Z" stroke="%2334C759" stroke-width="5" fill="none"/><circle cx="50" cy="50" r="10" fill="%23FF9500"/></svg>')
+    repeat;
+  z-index: -1;
+}
+
+/* Toast Notification */
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #34c759;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  z-index: 2000;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease;
+}
+
+.toast.hidden {
+  opacity: 0;
 }
 
 /* Navbar */
@@ -11,189 +45,716 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #fff;
-  padding: 15px 40px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  background-color: #ffffff;
+  padding: 15px 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
 }
 
 .logo {
-  font-weight: bold;
-  font-size: 22px;
-  color: #27ae60;
+  font-weight: 700;
+  font-size: 24px;
+  color: #34c759;
 }
 
 .logo span {
-  color: #888;
+  color: #ff9500;
 }
 
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 30px;
-  position: relative;
+  gap: 35px;
+  margin: 0;
 }
 
 .nav-links li {
   position: relative;
 }
 
-.nav-links a {
+.nav-links .dropdown-toggle {
   text-decoration: none;
-  color: #333;
-  font-weight: 500;
+  color: #1e3a8a;
+  font-weight: 600;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.nav-links .dropdown-toggle:hover {
+  color: #34c759;
 }
 
 .nav-links .dropdown-menu {
   display: none;
   position: absolute;
-  top: 35px;
-  left: 0;
-  background-color: white;
+  top: 30px;
+  left: -10px;
+  background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   z-index: 999;
+  min-width: 150px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.nav-links .dropdown:hover .dropdown-menu {
+.nav-links .dropdown.active .dropdown-menu {
   display: block;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .dropdown-menu li a {
   display: block;
-  padding: 10px 20px;
-  color: #444;
+  padding: 12px 20px;
+  color: #1e3a8a;
+  font-weight: 500;
   white-space: nowrap;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.dropdown-menu li a:hover {
+  background-color: #e6f0fa;
+  color: #34c759;
 }
 
 .auth {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .auth .login {
-  color: #1e90ff;
+  color: #ff9500;
   text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
 }
 
 .auth .register {
-  background-color: #27ae60;
+  background-color: #34c759;
   color: white;
   border: none;
-  padding: 6px 14px;
-  border-radius: 5px;
+  padding: 8px 18px;
+  border-radius: 6px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 15px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.auth .register:hover {
+  background-color: #2dbb55;
+  transform: scale(1.05);
 }
 
 /* Giới thiệu & tìm kiếm */
 .intro {
   text-align: center;
-  padding: 30px 20px;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #e6f0fa 0%, #ffffff 100%);
 }
 
 .intro h1 {
-  font-size: 26px;
-  color: #2c3e50;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 10px;
 }
 
 .intro p {
-  font-size: 16px;
-  color: #555;
-  margin: 10px 0 20px;
+  font-size: 18px;
+  color: #4b5eaa;
+  margin: 0 auto 25px;
+  max-width: 600px;
 }
 
 .search-box {
   display: inline-flex;
-  gap: 10px;
+  gap: 12px;
+  margin-top: 15px;
 }
 
 .search-box input {
-  padding: 8px 12px;
-  width: 250px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  padding: 10px 15px;
+  width: 300px;
+  border: 1px solid #d1d9e6;
+  border-radius: 8px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.search-box input:focus {
+  border-color: #34c759;
 }
 
 .search-box button {
-  background-color: #27ae60;
+  background-color: #34c759;
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-box button:hover {
+  background-color: #2dbb55;
+  transform: scale(1.05);
 }
 
 /* Ảnh đại diện nhóm */
 .categories {
   display: flex;
   justify-content: center;
-  gap: 40px;
-  margin: 30px 0;
+  gap: 30px;
+  margin: 40px 20px;
   flex-wrap: wrap;
 }
 
 .category {
   text-align: center;
   cursor: pointer;
+  transition: transform 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 .category img {
-  width: 180px;
-  height: 120px;
+  width: 200px;
+  height: 130px;
   object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .category img:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
 .category p {
-  margin-top: 8px;
-  font-weight: 500;
-  color: #333;
+  margin-top: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  color: #1e3a8a;
 }
 
 /* Danh sách món ăn */
+.food-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.category-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  margin: 20px 0;
+}
+
 .food-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 25px;
+  padding: 20px 0;
 }
 
 .food-card {
-  width: 200px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 12px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 15px;
   text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.food-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 }
 
 .food-card img.food-img {
   width: 100%;
-  height: 140px;
+  height: 150px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
+}
+
+.food-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin: 10px 0 8px;
 }
 
 .food-info {
   display: flex;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   font-size: 14px;
-  margin-top: 6px;
+  color: #4b5eaa;
+  margin-bottom: 8px;
 }
 
 .food-info img.icon {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
   vertical-align: middle;
+}
+
+.add-btn,
+.remove-btn {
+  background-color: #34c759;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add-btn:hover {
+  background-color: #2dbb55;
+  transform: scale(1.05);
+}
+
+.remove-btn {
+  background-color: #ff3b30;
+}
+
+.remove-btn:hover {
+  background-color: #ff2d55;
+  transform: scale(1.05);
+}
+
+/* Mẹo dinh dưỡng */
+.nutrition-tips {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+  background: linear-gradient(135deg, #e6f0fa 0%, #f7fafc 100%);
+  border-radius: 12px;
+}
+
+.nutrition-tips h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tips-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.tip-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.tip-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 10px;
+}
+
+.tip-card p {
+  font-size: 14px;
+  color: #4b5eaa;
+}
+
+/* Dinh dưỡng Section */
+.nutrition-section {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.nutrition-content {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-content h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.nutrition-content p {
+  font-size: 16px;
+  color: #4b5eaa;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto 20px;
+}
+
+.calo-calculator,
+.protein-recommendation,
+.protein-sources,
+.protein-comparison,
+.protein-tips,
+.meal-suggestion {
+  background-color: #e6f0fa;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+}
+
+.calo-calculator h3,
+.protein-recommendation h3,
+.protein-sources h3,
+.protein-comparison h3,
+.protein-tips h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.input-group label {
+  display: block;
+  font-size: 14px;
+  color: #1e3a8a;
+  margin-bottom: 5px;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #d1d9e6;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #34c759;
+}
+
+.calo-calculator button {
+  display: block;
+  margin: 0 auto;
+  background-color: #34c759;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  margin-top: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.calo-calculator button:hover {
+  background-color: #2dbb55;
+  transform: scale(1.05);
+}
+
+.calo-calculator #calo-result {
+  margin-top: 15px;
+  font-size: 16px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.protein-recommendation p {
+  font-size: 16px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.protein-progress {
+  margin-top: 20px;
+}
+
+.protein-progress h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.progress-bar {
+  background-color: #d1d9e6;
+  border-radius: 10px;
+  height: 20px;
+  overflow: hidden;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #34c759, #2dbb55);
+  height: 100%;
+  width: 0;
+  transition: width 0.5s ease;
+}
+
+#protein-progress-text {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #4b5eaa;
+}
+
+.protein-sources .source-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.source-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.source-card h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 10px;
+}
+
+.source-card p {
+  font-size: 14px;
+  color: #4b5eaa;
+}
+
+.protein-chart {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.protein-ring {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.protein-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.protein-ring circle {
+  fill: none;
+  stroke-width: 10;
+}
+
+.protein-ring .ring-bg {
+  stroke: #d1d9e6;
+}
+
+.protein-ring .ring-fill {
+  stroke: #34c759;
+  stroke-dasharray: 314;
+  stroke-dashoffset: 314;
+  transition: stroke-dashoffset 1s ease;
+}
+
+.protein-ring .ring-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.protein-ring .ring-text span {
+  display: block;
+  font-size: 12px;
+  color: #4b5eaa;
+}
+
+.protein-tips ul {
+  list-style: none;
+  padding: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.protein-tips li {
+  font-size: 14px;
+  color: #4b5eaa;
+  margin-bottom: 10px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.protein-tips li::before {
+  content: "✔";
+  position: absolute;
+  left: 0;
+  color: #34c759;
+}
+
+.meal-suggestion {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.meal-card {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+.meal-card h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e3a8a;
+  margin-bottom: 10px;
+}
+
+.meal-card p {
+  font-size: 14px;
+  color: #4b5eaa;
+  margin: 5px 0;
+}
+
+/* Thực đơn hiện tại */
+.meal-plan,
+.history {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.meal-plan h2,
+.history h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e3a8a;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.meal-totals {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.meal-totals p {
+  font-size: 16px;
+  color: #1e3a8a;
+  margin: 5px 0;
+}
+
+.food-card .quantity {
+  font-size: 14px;
+  color: #34c759;
+  margin: 5px 0;
+}
+
+.save-btn {
+  display: block;
+  margin: 20px auto;
+  background-color: #34c759;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.save-btn:hover {
+  background-color: #2dbb55;
+  transform: scale(1.05);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.history-item {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.history-item h4 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
