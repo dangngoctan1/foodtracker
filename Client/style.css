@@ -216,7 +216,7 @@ body::before {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin: 40px 20px;
+  margin: 10px 20px 40px 20px;
   flex-wrap: wrap;
 }
 
@@ -758,4 +758,28 @@ body::before {
     opacity: 1;
     transform: translateY(0);
   }
+}
+.image-carousel {
+  max-width: 900px;
+  width: 90%;
+  height: 220px;
+  margin: 20px auto 10px auto;
+  overflow: hidden;
+  position: relative;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-slides {
+  display: flex;
+  width: 400%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-image {
+  width: 25%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
 }

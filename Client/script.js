@@ -14,6 +14,11 @@ const foodData = {
     { image: "chuoi.jpg", name: "Chuối", calo: 105, protein: 1.3 },
     { image: "cam.jpg", name: "Cam", calo: 62, protein: 1.2 },
   ],
+  tinhbot: [
+    { image: "comtrang.jpg", name: "Cơm trắng", calo: 130, protein: 2.7 }, // Ví dụ
+    { image: "banhmi.jpg", name: "Bánh mì trắng", calo: 265, protein: 9 }, // Ví dụ
+    { image: "khoaitay.jpg", name: "Khoai tây luộc", calo: 87, protein: 1.9 }, // Ví dụ
+  ],
 };
 
 let currentMeal = [];
@@ -26,6 +31,7 @@ const categoryTitles = {
   dongvat: "Thức ăn từ động vật",
   raucu: "Rau củ tươi xanh",
   traicay: "Trái cây bổ dưỡng",
+  tinhbot: "Thực phẩm giàu Tinh bột & Carb",
 };
 
 // Hiển thị toast notification
@@ -530,3 +536,21 @@ function showMealSuggestions() {
   proteinInfo.classList.add("hidden");
   mealSuggestions.classList.remove("hidden");
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const carouselSlides = document.querySelector(".carousel-slides");
+  if (carouselSlides) {
+    const images = carouselSlides.querySelectorAll(".carousel-image");
+    const imageCount = images.length;
+    let currentIndex = 0;
+
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % imageCount;
+      const offset = -currentIndex * (100 / imageCount);
+      carouselSlides.style.transform = `translateX(${offset}%)`;
+    }
+
+    setInterval(nextSlide, 1500);
+  } else {
+    console.log("Phần tử .carousel-slides không được tìm thấy.");
+  }
+});
