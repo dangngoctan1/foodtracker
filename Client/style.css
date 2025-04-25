@@ -265,7 +265,7 @@ body::before {
 
 .food-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 25px;
   padding: 20px 0;
 }
@@ -782,4 +782,259 @@ body::before {
   height: 220px;
   object-fit: cover;
   display: block;
+}
+
+/* --- Redesigned BMI Calculator --- */
+.bmi-calculator-section {
+  max-width: 800px; /* Tăng chiều rộng tối đa */
+  margin: 40px auto;
+  padding: 30px; /* Tăng padding */
+  background-color: #f8f9fa; /* Nền sáng hơn một chút */
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Bóng đổ rõ hơn */
+  text-align: center;
+}
+
+.bmi-calculator-section h2 {
+  font-size: 32px; /* Tăng kích thước tiêu đề */
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+}
+
+.bmi-description {
+  font-size: 16px;
+  color: #6c757d; /* Màu xám nhạt hơn */
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.bmi-inputs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Tạo lưới 2 cột */
+  gap: 25px; /* Khoảng cách giữa các ô */
+  margin-bottom: 30px;
+}
+
+.bmi-input-card {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6; /* Viền mảnh */
+  text-align: left;
+  position: relative; /* Để định vị số thứ tự */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.card-number {
+  position: absolute;
+  top: -12px; /* Đẩy lên trên */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #34c759; /* Màu xanh lá */
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.bmi-input-card label {
+  display: block;
+  font-size: 16px;
+  color: #495057; /* Màu chữ đậm hơn */
+  font-weight: 600; /* Đậm hơn */
+  margin-bottom: 15px; /* Khoảng cách lớn hơn */
+  text-align: center;
+}
+
+.bmi-value-input {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Căn giữa input và đơn vị */
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ced4da; /* Đường gạch chân */
+  padding-bottom: 5px;
+}
+
+.bmi-value-input input[type="number"] {
+  border: none;
+  outline: none;
+  font-size: 24px; /* Kích thước số lớn */
+  font-weight: 700;
+  color: #1e3a8a;
+  width: auto; /* Chỉ rộng vừa đủ nội dung */
+  text-align: center; /* Căn giữa số */
+  background: transparent; /* Nền trong suốt */
+  padding: 5px;
+  margin-right: 8px; /* Khoảng cách với đơn vị */
+  max-width: 100px; /* Giới hạn chiều rộng */
+}
+/* Loại bỏ mũi tên tăng/giảm của input number */
+.bmi-value-input input[type="number"]::-webkit-outer-spin-button,
+.bmi-value-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.bmi-value-input input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.bmi-value-input span {
+  font-size: 18px;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.bmi-selector {
+  display: flex;
+  justify-content: center; /* Căn giữa các nút chọn */
+  gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+.bmi-option {
+  padding: 8px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.bmi-option:hover {
+  background-color: #e9ecef;
+}
+
+.bmi-option.active {
+  background-color: #34c759; /* Màu nền active */
+  color: white;
+  border-color: #34c759;
+  font-weight: 600;
+}
+
+.calculate-bmi-btn {
+  background-color: #34c759;
+  color: white;
+  border: none;
+  padding: 12px 30px; /* Nút to hơn */
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px; /* Chữ to hơn */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 10px; /* Khoảng cách với lưới input */
+}
+
+.calculate-bmi-btn:hover {
+  background-color: #2dbb55;
+  transform: scale(1.03); /* Hiệu ứng lớn hơn khi hover */
+}
+
+.bmi-results-area {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e6f0fa; /* Nền cho kết quả */
+  border-radius: 8px;
+  min-height: 80px; /* Chiều cao tối thiểu */
+}
+
+#bmi-result {
+  margin-top: 0; /* Bỏ margin top cũ */
+  font-size: 18px;
+  color: #1e3a8a;
+  font-weight: 500; /* Hơi đậm */
+  margin-bottom: 10px;
+}
+
+#bmi-interpretation {
+  font-size: 18px; /* Kích thước diễn giải lớn hơn */
+  font-weight: 600;
+}
+
+/* Responsive: Xếp chồng lên nhau trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .bmi-inputs-grid {
+    grid-template-columns: 1fr; /* 1 cột */
+  }
+  .bmi-calculator-section {
+    padding: 20px;
+  }
+}
+
+/* --- Footer Styles --- */
+footer {
+  background-color: transparent; /* Nền trong suốt */
+  color: #4b5eaa; /* Màu chữ giống phần body hoặc màu khác tùy ý */
+  padding: 25px 50px; /* Padding trên/dưới và trái/phải */
+  text-align: center;
+  font-size: 14px;
+  border-top: 1px solid #e0e0e0; /* Đường kẻ mảnh phía trên */
+  margin-top: 50px; /* Khoảng cách với nội dung bên trên */
+  width: 100%;
+  box-sizing: border-box; /* Để padding không làm tăng kích thước tổng */
+  /* Footer sẽ tự động nằm dưới cùng nếu là phần tử cuối cùng trong body */
+  /* và không có phần tử nào khác được định vị tuyệt đối đè lên */
+}
+
+.footer-content {
+  max-width: 1200px; /* Giới hạn chiều rộng nội dung */
+  margin: 0 auto; /* Căn giữa nội dung */
+  display: flex;
+  flex-direction: column; /* Xếp chồng lên nhau theo mặc định */
+  align-items: center;
+  gap: 12px; /* Khoảng cách giữa dòng text và dòng link */
+}
+
+.footer-content p {
+  margin: 0; /* Bỏ margin mặc định của thẻ p */
+  line-height: 1.5; /* Tăng khoảng cách dòng cho dễ đọc */
+}
+
+.footer-links {
+  margin-top: 5px; /* Khoảng cách nhỏ với dòng trên */
+}
+
+.footer-links a {
+  color: #1e3a8a; /* Màu link đậm hơn */
+  text-decoration: none;
+  margin: 0 8px; /* Khoảng cách giữa các link */
+  font-weight: 500; /* Hơi đậm */
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #34c759; /* Màu khi hover, giống màu chủ đạo */
+  text-decoration: underline; /* Thêm gạch chân khi hover */
+}
+
+/* Responsive: Chuyển sang hàng ngang trên màn hình lớn hơn */
+@media (min-width: 768px) {
+  .footer-content {
+    flex-direction: row; /* Sắp xếp thành hàng ngang */
+    justify-content: space-between; /* Đẩy text và links ra hai bên */
+  }
+  .footer-links {
+    margin-top: 0; /* Bỏ margin top khi thành hàng ngang */
+  }
+}
+
+/* Đảm bảo body có đủ chiều cao để đẩy footer xuống nếu nội dung ngắn */
+/* Cách 1: Dùng min-height (đơn giản) */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+main /* Hoặc một thẻ bao quanh nội dung chính của bạn */ {
+  flex-grow: 1; /* Làm cho nội dung chính chiếm hết không gian còn lại */
 }

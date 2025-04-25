@@ -123,6 +123,7 @@ function hideAllSections() {
   document.getElementById("calo-info")?.classList.add("hidden");
   document.getElementById("protein-info")?.classList.add("hidden");
   document.getElementById("meal-suggestions")?.classList.add("hidden");
+  document.getElementById("bmi-calculator-section")?.classList.add("hidden");
 }
 
 function searchFoods() {
@@ -516,4 +517,144 @@ document.addEventListener("DOMContentLoaded", () => {
       setInterval(nextSlide, 3000);
     }
   }
+  const yearSpan = document.getElementById("copyright-year");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear(); // Lấy năm hiện tại
+  }
+});
+
+function showBmiCalculator() {
+  const bmiSection = document.getElementById("bmi-calculator-section");
+  hideAllSections();
+  bmiSection.classList.remove("hidden");
+  smoothScrollTo("bmi-calculator-section");
+}
+
+// --- BMI Calculator Redesign Logic ---
+
+// Hàm xử lý chọn giới tính
+function selectSex(sex) {
+  document.getElementById("sex-male").classList.remove("active");
+  document.getElementById("sex-female").classList.remove("active");
+  document.getElementById(`sex-${sex}`).classList.add("active");
+  document.getElementById("bmi-sex").value = sex; // Lưu giá trị đã chọn
+}
+
+// Hàm xử lý chọn đơn vị chiều cao
+function selectHeightUnit(unit) {
+  document.getElementById("unit-cm").classList.remove("active");
+  document.getElementById("unit-ftin").classList.remove("active");
+  document.getElementById(`unit-${unit}`).classList.add("active");
+  document.getElementById("bmi-height-unit").value = unit;
+  document.getElementById("height-unit-display").textContent =
+    unit === "cm" ? "cm" : "ft/in";
+  // Có thể thêm logic chuyển đổi giá trị input nếu cần khi đổi đơn vị
+}
+
+// Hàm xử lý chọn đơn vị cân nặng
+function selectWeightUnit(unit) {
+  document.getElementById("unit-kg").classList.remove("active");
+  document.getElementById("unit-lb").classList.remove("active");
+  document.getElementById(`unit-${unit}`).classList.add("active");
+  document.getElementById("bmi-weight-unit").value = unit;
+  document.getElementById("weight-unit-display").textContent =
+    unit === "kg" ? "kg" : "lb";
+  // Có thể thêm logic chuyển đổi giá trị input nếu cần khi đổi đơn vị
+}
+
+// Hàm tính BMI cập nhật
+function calculateBmi() {
+  const ageInput = document.getElementById("bmi-age");
+  const heightInput = document.getElementById("bmi-height");
+  const weightInput = document.getElementById("bmi-weight");
+  const heightUnit = document.getElementById("bmi-height-unit").value;
+  const weightUnit = document.getElementById("bmi-weight-unit").value;
+  const sex = document.getElementById("bmi-sex").value; // Lấy giá trị giới tính
+
+  const resultEl = document.getElementById("bmi-result");
+  const interpretationEl = document.getElementById("bmi-interpretation");
+
+  resultEl.innerHTML = "";
+  interpretationEl.innerHTML = "";
+
+  const age = parseInt(ageInput.value);
+  let height = parseFloat(heightInput.value);
+  let weight = parseFloat(weightInput.value);
+
+  // --- Validation ---
+  if (!age || age < 1 || age > 120) {
+    showToast("Vui lòng nhập tuổi hợp lệ (1-120).");
+    return;
+  }
+  if (!height || height <= 0) {
+    showToast("Vui lòng nhập chiều cao hợp lệ.");
+    return;
+  }
+  if (!weight || weight <= 0) {
+    showToast("Vui lòng nhập cân nặng hợp lệ.");
+    return;
+  }
+
+  // --- Unit Conversion ---
+  let heightInCm = height;
+  if (heightUnit === "ftin") {
+    // Giả sử người dùng nhập dạng feet.inches (vd: 5.10 cho 5 feet 10 inches)
+    // Hoặc cần tách thành 2 input riêng cho feet và inches để chính xác hơn
+    const feet = Math.floor(height);
+    const inches = (height - feet) * 100; // Lấy phần thập phân làm inches
+    heightInCm = feet * 30.48 + inches * 2.54;
+    // LƯU Ý: Cách xử lý input 'ftin' này là đơn giản hóa.
+    // Để chính xác, nên có 2 ô nhập riêng cho feet và inches.
+    if (isNaN(heightInCm) || heightInCm <= 0) {
+      showToast(
+        "Định dạng ft/in không hợp lệ. Ví dụ: 5.10 cho 5 feet 10 inches."
+      );
+      return;
+    }
+  }
+
+  let weightInKg = weight;
+  if (weightUnit === "lb") {
+    weightInKg = weight * 0.453592;
+    if (isNaN(weightInKg) || weightInKg <= 0) {
+      showToast("Cân nặng (lb) không hợp lệ.");
+      return;
+    }
+  }
+
+  // --- Calculation ---
+  if (heightInCm <= 0 || weightInKg <= 0) {
+    showToast("Chiều cao và cân nặng phải lớn hơn 0.");
+    return;
+  }
+
+  const heightInMeters = heightInCm / 100;
+  const bmi = (weightInKg / (heightInMeters * heightInMeters)).toFixed(1);
+
+  // --- Display Results ---
+  resultEl.innerHTML = `Chỉ số BMI của bạn là: <strong>${bmi}</strong>`;
+
+  let interpretation = "";
+  let color = "";
+  if (bmi < 18.5) {
+    interpretation = "Bạn đang thiếu cân.";
+    color = "#3498db"; // Blue
+  } else if (bmi >= 18.5 && bmi < 24.9) {
+    interpretation = "Bạn có cân nặng bình thường.";
+    color = "#2ecc71"; // Green
+  } else if (bmi >= 25 && bmi < 29.9) {
+    interpretation = "Bạn đang thừa cân.";
+    color = "#f39c12"; // Orange
+  } else {
+    // bmi >= 30
+    interpretation = "Bạn đang bị béo phì.";
+    color = "#e74c3c"; // Red
+  }
+  interpretationEl.innerHTML = `<span style="color: ${color}; font-weight: bold;">${interpretation}</span>`;
+}
+
+// Khởi tạo trạng thái active ban đầu khi trang tải (nếu cần)
+document.addEventListener("DOMContentLoaded", () => {
+  // Bạn có thể gọi các hàm select...() ở đây nếu muốn đặt giá trị mặc định khác
+  // ví dụ: selectHeightUnit('cm'); selectWeightUnit('kg'); selectSex('male');
 });

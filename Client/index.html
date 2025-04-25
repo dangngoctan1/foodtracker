@@ -34,18 +34,21 @@
         <li class="dropdown">
           <a href="#" class="dropdown-toggle">Dinh dưỡng</a>
           <ul class="dropdown-menu">
-            <li><a href="#" onclick="showCaloInfo()">Calo là gì?</a></li>
-            <li><a href="#" onclick="showProteinInfo()">Protein là gì?</a></li>
+            <li><a href="#" onclick="showCaloInfo()">🔥 Calo là gì?</a></li>
             <li>
-              <a href="#" onclick="showMealSuggestions()">Thực đơn gợi ý</a>
+              <a href="#" onclick="showProteinInfo()">💪Protein là gì?</a>
+            </li>
+            <li>
+              <a href="#" onclick="showMealSuggestions()">🍽️ Thực đơn gợi ý</a>
             </li>
           </ul>
         </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle">Tính năng</a>
           <ul class="dropdown-menu">
-            <li><a href="#" onclick="showMealPlan()">Xem thực đơn</a></li>
-            <li><a href="#" onclick="showHistory()">Lịch sử</a></li>
+            <li><a href="#" onclick="showMealPlan()">📋 Xem thực đơn</a></li>
+            <li><a href="#" onclick="showHistory()">🕰️ Lịch sử</a></li>
+            <li><a href="#" onclick="showBmiCalculator()">📏 Tính BMI</a></li>
           </ul>
         </li>
       </ul>
@@ -297,6 +300,138 @@
       <h2>Lịch sử bữa ăn</h2>
       <div id="history-list"></div>
     </section>
+
+    <section id="history" class="history hidden">
+      <h2>Lịch sử bữa ăn</h2>
+      <div id="history-list"></div>
+    </section>
+
+    <section id="bmi-calculator-section" class="bmi-calculator-section hidden">
+      <h2>BMI Calculator</h2>
+      <p class="bmi-description">
+        Tính chỉ số BMI (Body Mass Index) của bạn để biết tình trạng cơ thể hiện
+        tại.
+      </p>
+
+      <div class="bmi-inputs-grid">
+        <div class="bmi-input-card">
+          <span class="card-number">1</span>
+          <label>Giới tính của bạn?</label>
+          <div class="bmi-selector">
+            <button
+              id="sex-male"
+              class="bmi-option active"
+              onclick="selectSex('male')"
+            >
+              Nam
+            </button>
+            <button
+              id="sex-female"
+              class="bmi-option"
+              onclick="selectSex('female')"
+            >
+              Nữ
+            </button>
+          </div>
+          <input type="hidden" id="bmi-sex" value="male" />
+        </div>
+
+        <div class="bmi-input-card">
+          <span class="card-number">2</span>
+          <label>Bạn bao nhiêu tuổi?</label>
+          <div class="bmi-value-input">
+            <input type="number" id="bmi-age" value="21" />
+            <span>Tuổi</span>
+          </div>
+        </div>
+
+        <div class="bmi-input-card">
+          <span class="card-number">3</span>
+          <label>Chiều cao của bạn?</label>
+          <div class="bmi-value-input">
+            <input type="number" id="bmi-height" value="170" />
+            <span id="height-unit-display">cm</span>
+          </div>
+          <div class="bmi-selector">
+            <button
+              id="unit-cm"
+              class="bmi-option active"
+              onclick="selectHeightUnit('cm')"
+            >
+              cm
+            </button>
+            <button
+              id="unit-ftin"
+              class="bmi-option"
+              onclick="selectHeightUnit('ftin')"
+            >
+              ft/in
+            </button>
+          </div>
+          <input type="hidden" id="bmi-height-unit" value="cm" />
+        </div>
+
+        <div class="bmi-input-card">
+          <span class="card-number">4</span>
+          <label>Cân nặng của bạn?</label>
+          <div class="bmi-value-input">
+            <input type="number" id="bmi-weight" value="60" />
+            <span id="weight-unit-display">kg</span>
+          </div>
+          <div class="bmi-selector">
+            <button
+              id="unit-kg"
+              class="bmi-option active"
+              onclick="selectWeightUnit('kg')"
+            >
+              kg
+            </button>
+            <button
+              id="unit-lb"
+              class="bmi-option"
+              onclick="selectWeightUnit('lb')"
+            >
+              lb
+            </button>
+          </div>
+          <input type="hidden" id="bmi-weight-unit" value="kg" />
+        </div>
+      </div>
+
+      <button class="calculate-bmi-btn" onclick="calculateBmi()">
+        Calculate your BMI
+      </button>
+
+      <div class="bmi-results-area">
+        <p id="bmi-result"></p>
+        <div id="bmi-interpretation"></div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-content">
+        <p>
+          &copy; <span id="copyright-year"></span> All Rights Reserved |
+          Designed by: Đặng Ngọc Tân, Nguyễn Phúc Anh, Võ Văn Minh Quân
+        </p>
+        <div class="footer-links">
+          Liên hệ:
+          <a
+            href="https://www.facebook.com/profile.php?id=61564861492746"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Facebook</a
+          >
+          |
+          <a
+            href="https://www.instagram.com/ngoctan_dn/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Instagram</a
+          >
+        </div>
+      </div>
+    </footer>
 
     <script src="script.js"></script>
   </body>
