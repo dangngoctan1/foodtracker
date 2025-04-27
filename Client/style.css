@@ -884,6 +884,9 @@ body::before {
   margin: 0;
 }
 .bmi-value-input input[type="number"] {
+  appearance: textfield;
+  appearance: textfield;
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -1037,4 +1040,613 @@ body {
 }
 main /* Hoặc một thẻ bao quanh nội dung chính của bạn */ {
   flex-grow: 1; /* Làm cho nội dung chính chiếm hết không gian còn lại */
+}
+
+/* --- Night Mode Toggle Button --- */
+.night-mode-toggle {
+  position: fixed; /* Giữ cố định trên màn hình */
+  bottom: 20px; /* Cách đáy 20px */
+  left: 20px; /* Cách trái 20px */
+  width: 50px; /* Kích thước nút */
+  height: 50px;
+  background-color: #f0f0f0; /* Màu nền ban đầu */
+  color: #1e3a8a; /* Màu icon ban đầu */
+  border: 1px solid #d1d9e6;
+  border-radius: 50%; /* Bo tròn thành hình tròn */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1100; /* Đảm bảo nút nằm trên các thành phần khác */
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.night-mode-toggle:hover {
+  transform: scale(1.1); /* Phóng to nhẹ khi hover */
+  background-color: #e0e0e0;
+}
+
+.night-mode-toggle svg {
+  transition: opacity 0.3s ease;
+}
+
+/* --- Night Mode Styles --- */
+body.night-mode {
+  background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+  color: #d1d5db; /* Màu chữ chính trong night mode */
+}
+
+/* Ghi đè màu nền/chữ cho các thành phần cụ thể trong night mode */
+body.night-mode .navbar,
+body.night-mode .food-card,
+body.night-mode .tip-card,
+body.night-mode .nutrition-content,
+body.night-mode .history-item,
+body.night-mode .meal-card,
+body.night-mode .bmi-calculator-section,
+body.night-mode .bmi-input-card {
+  background-color: #374151; /* Màu nền tối hơn */
+  color: #e5e7eb;
+  border-color: #4b5563; /* Màu viền tối hơn */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.night-mode .logo,
+body.night-mode .logo span,
+body.night-mode .nav-links .dropdown-toggle,
+body.night-mode .auth .login,
+body.night-mode .category p,
+body.night-mode .category-title,
+body.night-mode .food-card h3,
+body.night-mode .tip-card h3,
+body.night-mode .nutrition-content h2,
+body.night-mode .calo-calculator h3,
+body.night-mode .protein-recommendation h3,
+body.night-mode .protein-sources h3,
+body.night-mode .protein-comparison h3,
+body.night-mode .protein-tips h3,
+body.night-mode .meal-plan h2,
+body.night-mode .history h2,
+body.night-mode .meal-card h3,
+body.night-mode .history-item h4,
+body.night-mode .bmi-calculator-section h2,
+body.night-mode .bmi-input-card label,
+body.night-mode .bmi-value-input input[type="number"],
+body.night-mode .footer-links a {
+  color: #e5e7eb; /* Màu chữ sáng hơn */
+}
+
+body.night-mode .intro p,
+body.night-mode .food-info,
+body.night-mode .tip-card p,
+body.night-mode .nutrition-content p,
+body.night-mode .input-group label,
+body.night-mode #calo-result,
+body.night-mode .protein-recommendation p,
+body.night-mode #protein-progress-text,
+body.night-mode .source-card p,
+body.night-mode .protein-ring .ring-text,
+body.night-mode .protein-ring .ring-text span,
+body.night-mode .protein-tips li,
+body.night-mode .meal-card p,
+body.night-mode .meal-totals p,
+body.night-mode .food-card .quantity,
+body.night-mode .bmi-description,
+body.night-mode .bmi-value-input span,
+body.night-mode footer,
+body.night-mode #bmi-result {
+  color: #9ca3af; /* Màu chữ phụ tối hơn */
+}
+
+body.night-mode .search-box input,
+body.night-mode .input-group input,
+body.night-mode .input-group select,
+body.night-mode .bmi-option {
+  background-color: #4b5563;
+  color: #e5e7eb;
+  border-color: #6b7280;
+}
+
+body.night-mode .search-box input:focus,
+body.night-mode .input-group input:focus,
+body.night-mode .input-group select:focus {
+  border-color: #60a5fa; /* Màu focus khác */
+}
+
+body.night-mode .progress-bar {
+  background-color: #4b5563;
+}
+
+body.night-mode .protein-ring .ring-bg {
+  stroke: #4b5563;
+}
+
+/* Màu nút và link trong night mode */
+body.night-mode .auth .register,
+body.night-mode .search-box button,
+body.night-mode .add-btn,
+body.night-mode .calo-calculator button,
+body.night-mode .save-btn,
+body.night-mode .calculate-bmi-btn,
+body.night-mode .bmi-option.active {
+  background-color: #60a5fa; /* Màu xanh dương thay vì xanh lá */
+  color: #1f2937;
+}
+body.night-mode .auth .register:hover,
+body.night-mode .search-box button:hover,
+body.night-mode .add-btn:hover,
+body.night-mode .calo-calculator button:hover,
+body.night-mode .save-btn:hover,
+body.night-mode .calculate-bmi-btn:hover {
+  background-color: #3b82f6;
+}
+body.night-mode .remove-btn {
+  background-color: #f87171; /* Màu đỏ nhạt hơn */
+}
+body.night-mode .remove-btn:hover {
+  background-color: #ef4444;
+}
+
+/* Điều chỉnh màu nền dropdown menu */
+body.night-mode .nav-links .dropdown-menu {
+  background-color: #374151;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+body.night-mode .dropdown-menu li a {
+  color: #e5e7eb;
+}
+body.night-mode .dropdown-menu li a:hover {
+  background-color: #4b5563;
+  color: #60a5fa;
+}
+
+/* Điều chỉnh màu nút night mode khi ở night mode */
+body.night-mode .night-mode-toggle {
+  background-color: #4b5563;
+  color: #f0f0f0; /* Màu icon sáng */
+  border-color: #6b7280;
+}
+body.night-mode .night-mode-toggle:hover {
+  background-color: #556173;
+}
+
+/* Ẩn/hiện icon mặt trăng/mặt trời */
+body:not(.night-mode) .night-mode-toggle .sun-icon {
+  display: none;
+}
+body:not(.night-mode) .night-mode-toggle .moon-icon {
+  display: inline-block;
+}
+body.night-mode .night-mode-toggle .sun-icon {
+  display: inline-block;
+}
+body.night-mode .night-mode-toggle .moon-icon {
+  display: none;
+}
+
+/* Ghi đè pattern overlay nếu cần */
+body.night-mode::before {
+  opacity: 0.03; /* Giảm độ mờ pattern trong night mode */
+  /* Có thể thay đổi SVG nếu muốn pattern khác */
+}
+
+/* --- Font Size Toggle Button --- */
+.font-size-toggle {
+  position: fixed;
+  /* Đặt vị trí phía trên nút night mode. Giả sử nút night mode cao 50px và cách đáy 20px */
+  bottom: 80px; /* 20px (bottom night mode) + 50px (height night mode) + 10px (gap) */
+  left: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: #f0f0f0;
+  color: #1e3a8a;
+  border: 1px solid #d1d9e6;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; /* Sử dụng flex để căn chỉnh icon và số */
+  flex-direction: column; /* Xếp chồng icon và số */
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1100;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  padding-top: 5px; /* Thêm chút padding để số không quá sát */
+  box-sizing: border-box;
+}
+
+.font-size-toggle svg {
+  width: 20px; /* Điều chỉnh kích thước icon "T" nếu cần */
+  height: 20px;
+}
+
+.font-size-indicator {
+  font-size: 10px; /* Kích thước số chỉ báo nhỏ */
+  font-weight: bold;
+  margin-top: 2px;
+}
+
+.font-size-toggle:hover {
+  transform: scale(1.1);
+  background-color: #e0e0e0;
+}
+
+/* Điều chỉnh màu nút font-size khi ở night mode */
+body.night-mode .font-size-toggle {
+  background-color: #4b5563;
+  color: #f0f0f0;
+  border-color: #6b7280;
+}
+body.night-mode .font-size-toggle:hover {
+  background-color: #556173;
+}
+
+/* --- Font Size Classes --- */
+/* Sử dụng biến CSS cho kích thước font gốc của html */
+:root {
+  --base-font-size: 100%; /* Kích thước mặc định (level 1) */
+}
+
+html.font-size-0 {
+  --base-font-size: 85%;
+} /* Nhỏ nhất */
+html.font-size-1 {
+  --base-font-size: 100%;
+} /* Mặc định */
+html.font-size-2 {
+  --base-font-size: 115%;
+} /* Lớn hơn */
+html.font-size-3 {
+  --base-font-size: 130%;
+} /* Lớn nhất */
+
+/* Áp dụng biến vào html để tất cả các đơn vị rem kế thừa */
+html {
+  font-size: var(--base-font-size);
+}
+
+/* Điều chỉnh lại một số font-size cố định (px) nếu cần để chúng linh hoạt hơn */
+/* Ví dụ: Thay vì font-size: 14px; có thể dùng font-size: 0.875rem; */
+/* Cần rà soát lại CSS và điều chỉnh các đơn vị px sang rem nếu muốn chúng thay đổi theo cài đặt */
+
+/* Ví dụ điều chỉnh một số thành phần có font-size cố định */
+.toast {
+  font-size: 0.875rem;
+} /* Tương đương 14px ở 100% */
+.logo {
+  font-size: 1.5rem;
+} /* Tương đương 24px */
+.nav-links .dropdown-toggle {
+  font-size: 1rem;
+} /* Tương đương 16px */
+.dropdown-menu li a {
+  font-size: 0.9375rem;
+} /* Tương đương 15px */
+.auth .login,
+.auth .register {
+  font-size: 0.9375rem;
+}
+.intro h1 {
+  font-size: 2.25rem;
+} /* Tương đương 36px */
+.intro p {
+  font-size: 1.125rem;
+} /* Tương đương 18px */
+/* ... và các thành phần khác ... */
+/* Quan trọng: Rà soát kỹ các đơn vị px trong style.css và chuyển sang rem */
+
+/* Cập nhật lại một số font size trong BMI calculator nếu cần */
+.bmi-description {
+  font-size: 1rem;
+}
+.bmi-input-card label {
+  font-size: 1rem;
+}
+.bmi-value-input input[type="number"] {
+  font-size: 1.5rem;
+}
+.bmi-value-input span {
+  font-size: 1.125rem;
+}
+.bmi-option {
+  font-size: 0.875rem;
+}
+.calculate-bmi-btn {
+  font-size: 1.125rem;
+}
+#bmi-result {
+  font-size: 1.125rem;
+}
+#bmi-interpretation {
+  font-size: 1.125rem;
+}
+.footer-content p {
+  font-size: 0.875rem;
+}
+.font-size-indicator {
+  font-size: 0.625rem;
+} /* 10px / 16px */
+
+/* --- Ideal Body Weight (IBW) Calculator Styles --- */
+.ibw-calculator-section {
+  /* Tương tự .bmi-calculator-section */
+  max-width: 900px; /* Có thể điều chỉnh chiều rộng */
+  margin: 40px auto;
+  padding: 30px;
+  background-color: #f8f9fa;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.ibw-calculator-section h2 {
+  /* Tương tự .bmi-calculator-section h2 */
+  font-size: 2rem; /* 32px */
+  font-weight: 700;
+  color: #1e3a8a;
+  margin-bottom: 15px;
+}
+
+.ibw-description {
+  /* Tương tự .bmi-description */
+  font-size: 1rem; /* 16px */
+  color: #6c757d;
+  margin-bottom: 30px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ibw-inputs-grid {
+  /* Sử dụng grid 3 cột */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 cột bằng nhau */
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.ibw-input-card {
+  /* Tương tự .bmi-input-card */
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #dee2e6;
+  text-align: left;
+  position: relative;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex; /* Giúp căn chỉnh nội dung bên trong card */
+  flex-direction: column;
+  justify-content: space-between; /* Đẩy nội dung ra xa nhau */
+}
+
+.ibw-input-card .card-number {
+  /* Tương tự .card-number */
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #34c759;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem; /* 14px */
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ibw-input-card label {
+  /* Tương tự .bmi-input-card label */
+  display: block;
+  font-size: 1rem; /* 16px */
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.ibw-value-input {
+  /* Tương tự .bmi-value-input */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #ced4da;
+  padding-bottom: 5px;
+}
+
+.ibw-value-input input[type="number"] {
+  /* Tương tự .bmi-value-input input */
+  border: none;
+  outline: none;
+  font-size: 1.5rem; /* 24px */
+  font-weight: 700;
+  color: #1e3a8a;
+  width: auto;
+  text-align: center;
+  background: transparent;
+  padding: 5px;
+  margin-right: 8px;
+  max-width: 100px;
+  -moz-appearance: textfield;
+}
+.ibw-value-input input[type="number"]::-webkit-outer-spin-button,
+.ibw-value-input input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.ibw-value-input span {
+  /* Tương tự .bmi-value-input span */
+  font-size: 1.125rem; /* 18px */
+  color: #6c757d;
+  font-weight: 500;
+}
+
+.ibw-selector {
+  /* Tương tự .bmi-selector */
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px; /* Thêm khoảng cách trên nếu cần */
+}
+
+.ibw-option {
+  /* Tương tự .bmi-option */
+  padding: 8px 15px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background-color: #f8f9fa;
+  color: #6c757d;
+  cursor: pointer;
+  font-size: 0.875rem; /* 14px */
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  display: flex; /* Để căn icon và chữ */
+  align-items: center;
+  gap: 5px;
+}
+
+.ibw-option:hover {
+  background-color: #e9ecef;
+}
+
+.ibw-option.active {
+  /* Tương tự .bmi-option.active */
+  background-color: #34c759;
+  color: white;
+  border-color: #34c759;
+  font-weight: 600;
+}
+/* Đảm bảo icon trong nút active cũng màu trắng */
+.ibw-option.active .sex-icon {
+  filter: brightness(0) invert(1); /* Đổi icon thành màu trắng */
+}
+
+.ibw-sex-selector .ibw-option {
+  flex-grow: 1; /* Cho 2 nút giới tính chiếm không gian bằng nhau */
+  justify-content: center; /* Căn giữa nội dung nút */
+}
+
+.sex-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle; /* Căn icon với chữ */
+}
+
+.input-note {
+  font-size: 0.75rem; /* 12px */
+  color: #6c757d;
+  text-align: center;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+.calculate-ibw-btn {
+  /* Tương tự .calculate-bmi-btn */
+  background-color: #34c759;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.125rem; /* 18px */
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 20px; /* Khoảng cách với lưới input */
+}
+
+.calculate-ibw-btn:hover {
+  background-color: #2dbb55;
+  transform: scale(1.03);
+}
+
+.ibw-results-area {
+  /* Tương tự .bmi-results-area */
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #e6f0fa;
+  border-radius: 8px;
+  min-height: 80px;
+}
+
+#ibw-result {
+  /* Tương tự #bmi-result */
+  margin-top: 0;
+  font-size: 1.125rem; /* 18px */
+  color: #1e3a8a;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+#ibw-range-info {
+  font-size: 1rem; /* 16px */
+  color: #4b5eaa;
+  margin-bottom: 10px;
+}
+
+#ibw-note {
+  font-size: 0.875rem; /* 14px */
+  color: #6c757d;
+  font-style: italic;
+}
+
+/* Responsive: Chuyển thành 1 cột trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .ibw-inputs-grid {
+    grid-template-columns: 1fr; /* 1 cột */
+  }
+  .ibw-calculator-section {
+    padding: 20px;
+  }
+}
+
+/* Điều chỉnh cho Night Mode */
+body.night-mode .ibw-calculator-section {
+  background-color: #374151;
+  color: #e5e7eb;
+  border-color: #4b5563;
+}
+body.night-mode .ibw-calculator-section h2,
+body.night-mode .ibw-input-card label,
+body.night-mode .ibw-value-input input[type="number"],
+body.night-mode #ibw-result {
+  color: #e5e7eb;
+}
+body.night-mode .ibw-description,
+body.night-mode .ibw-value-input span,
+body.night-mode .input-note,
+body.night-mode #ibw-range-info,
+body.night-mode #ibw-note {
+  color: #9ca3af;
+}
+body.night-mode .ibw-input-card {
+  background-color: #4b5563;
+  border-color: #6b7280;
+}
+body.night-mode .ibw-option {
+  background-color: #556173;
+  color: #d1d5db;
+  border-color: #6b7280;
+}
+body.night-mode .ibw-option.active {
+  background-color: #60a5fa; /* Màu active trong night mode */
+  color: #1f2937;
+  border-color: #60a5fa;
+}
+/* Icon trong nút active night mode */
+body.night-mode .ibw-option.active .sex-icon {
+  filter: none; /* Reset filter để icon giữ màu gốc */
+}
+body.night-mode .calculate-ibw-btn {
+  background-color: #60a5fa;
+  color: #1f2937;
+}
+body.night-mode .calculate-ibw-btn:hover {
+  background-color: #3b82f6;
+}
+body.night-mode .ibw-results-area {
+  background-color: #4b5563; /* Nền tối hơn cho kết quả */
 }

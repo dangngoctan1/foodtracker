@@ -124,6 +124,7 @@ function hideAllSections() {
   document.getElementById("protein-info")?.classList.add("hidden");
   document.getElementById("meal-suggestions")?.classList.add("hidden");
   document.getElementById("bmi-calculator-section")?.classList.add("hidden");
+  document.getElementById("ibw-calculator-section")?.classList.add("hidden");
 }
 
 function searchFoods() {
@@ -521,6 +522,85 @@ document.addEventListener("DOMContentLoaded", () => {
   if (yearSpan) {
     yearSpan.textContent = new Date().getFullYear(); // Lấy năm hiện tại
   }
+
+  const fontSizeToggle = document.getElementById("font-size-toggle");
+  const fontSizeIndicator = fontSizeToggle.querySelector(
+    ".font-size-indicator"
+  );
+  const htmlElement = document.documentElement; // Lấy thẻ <html>
+  const maxFontSizeLevel = 3; // Có 4 level (0, 1, 2, 3)
+
+  let currentFontSizeLevel;
+
+  // Function to apply font size
+  const applyFontSize = (level) => {
+    // Xóa các class font-size cũ
+    for (let i = 0; i <= maxFontSizeLevel; i++) {
+      htmlElement.classList.remove(`font-size-${i}`);
+    }
+    // Thêm class mới
+    htmlElement.classList.add(`font-size-${level}`);
+    // Cập nhật số chỉ báo trên nút
+    fontSizeIndicator.textContent = level + 1; // Hiển thị 1, 2, 3, 4
+    currentFontSizeLevel = level; // Lưu level hiện tại
+  };
+
+  // Check local storage for saved font size preference
+  const savedFontSizeLevel = localStorage.getItem("fontSizeLevel");
+  if (savedFontSizeLevel !== null) {
+    applyFontSize(parseInt(savedFontSizeLevel, 10));
+  } else {
+    applyFontSize(1); // Mặc định là level 1 (100%)
+  }
+
+  // Add click event listener to the font size toggle button
+  fontSizeToggle.addEventListener("click", () => {
+    let nextLevel = (currentFontSizeLevel + 1) % (maxFontSizeLevel + 1); // Quay vòng từ 0 đến 3
+    applyFontSize(nextLevel);
+    // Save the new font size preference to local storage
+    localStorage.setItem("fontSizeLevel", nextLevel);
+  });
+
+  // --- Night Mode Logic ---
+  const nightModeToggle = document.getElementById("night-mode-toggle");
+  const body = document.body;
+  const moonIcon = nightModeToggle.querySelector(".moon-icon");
+  const sunIcon = nightModeToggle.querySelector(".sun-icon");
+
+  // Function to apply the theme
+  const applyTheme = (theme) => {
+    if (theme === "night") {
+      body.classList.add("night-mode");
+      moonIcon.style.display = "none";
+      sunIcon.style.display = "inline-block";
+    } else {
+      body.classList.remove("night-mode");
+      moonIcon.style.display = "inline-block";
+      sunIcon.style.display = "none";
+    }
+  };
+
+  // Check local storage for saved theme preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    applyTheme(savedTheme);
+  } else {
+    // Optional: Set default based on system preference if no saved theme
+    // const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    // applyTheme(prefersDark ? 'night' : 'day');
+    applyTheme("day"); // Default to day mode if nothing saved
+  }
+
+  // Add click event listener to the toggle button
+  nightModeToggle.addEventListener("click", () => {
+    const isNightMode = body.classList.contains("night-mode");
+    const newTheme = isNightMode ? "day" : "night";
+    applyTheme(newTheme);
+    // Save the new theme preference to local storage
+    localStorage.setItem("theme", newTheme);
+  });
+  selectIbwSex("male"); // Đặt giới tính mặc định là nam
+  selectIbwHeightUnit("cm"); // Đặt đơn vị chiều cao mặc định là cm
 });
 
 function showBmiCalculator() {
@@ -658,3 +738,128 @@ document.addEventListener("DOMContentLoaded", () => {
   // Bạn có thể gọi các hàm select...() ở đây nếu muốn đặt giá trị mặc định khác
   // ví dụ: selectHeightUnit('cm'); selectWeightUnit('kg'); selectSex('male');
 });
+
+function showIbwCalculator() {
+  const ibwSection = document.getElementById("ibw-calculator-section");
+  hideAllSections();
+  ibwSection.classList.remove("hidden");
+  smoothScrollTo("ibw-calculator-section");
+}
+
+function selectIbwSex(sex) {
+  document.getElementById("ibw-sex-male").classList.remove("active");
+  document.getElementById("ibw-sex-female").classList.remove("active");
+  document.getElementById(`ibw-sex-${sex}`).classList.add("active");
+  document.getElementById("ibw-sex").value = sex; // Lưu giá trị đã chọn
+}
+
+function selectIbwHeightUnit(unit) {
+  document.getElementById("ibw-unit-cm").classList.remove("active");
+  document.getElementById("ibw-unit-ftin").classList.remove("active");
+  document.getElementById(`ibw-unit-${unit}`).classList.add("active");
+  document.getElementById("ibw-height-unit").value = unit;
+  document.getElementById("ibw-height-unit-display").textContent =
+    unit === "cm" ? "cm" : "ft/in";
+  // Có thể thêm logic chuyển đổi giá trị input nếu cần khi đổi đơn vị
+}
+
+function calculateIbw() {
+  const ageInput = document.getElementById("ibw-age");
+  const heightInput = document.getElementById("ibw-height");
+  const sex = document.getElementById("ibw-sex").value;
+  const heightUnit = document.getElementById("ibw-height-unit").value;
+
+  const resultEl = document.getElementById("ibw-result");
+  const rangeInfoEl = document.getElementById("ibw-range-info"); // Lấy phần tử mới
+  const noteEl = document.getElementById("ibw-note");
+
+  resultEl.textContent = "";
+  rangeInfoEl.textContent = ""; // Xóa nội dung cũ
+  noteEl.textContent = ""; // Xóa nội dung cũ
+
+  const age = parseInt(ageInput.value);
+  let height = parseFloat(heightInput.value);
+
+  // --- Validation ---
+  if (!age || age < 1 || age > 120) {
+    showToast("Vui lòng nhập tuổi hợp lệ (1-120).");
+    return;
+  }
+  if (!height || height <= 0) {
+    showToast("Vui lòng nhập chiều cao hợp lệ.");
+    return;
+  }
+  if (!sex) {
+    showToast("Vui lòng chọn giới tính.");
+    return;
+  }
+
+  // --- Height Conversion to Inches ---
+  let heightInInches;
+  if (heightUnit === "cm") {
+    heightInInches = height / 2.54;
+  } else if (heightUnit === "ftin") {
+    // Xử lý ft/in (ví dụ: 5.10 nghĩa là 5 feet 10 inches)
+    const feet = Math.floor(height);
+    const inchesComponent = Math.round((height - feet) * 100); // Lấy phần thập phân làm inches
+    if (feet < 0 || inchesComponent < 0 || inchesComponent >= 12) {
+      showToast("Định dạng ft/in không hợp lệ (vd: 5.10 cho 5ft 10in).");
+      return;
+    }
+    heightInInches = feet * 12 + inchesComponent;
+  } else {
+    showToast("Đơn vị chiều cao không hợp lệ.");
+    return;
+  }
+
+  if (isNaN(heightInInches) || heightInInches <= 0) {
+    showToast("Chiều cao không hợp lệ sau khi chuyển đổi.");
+    return;
+  }
+
+  // --- IBW Calculation (using Devine formula as example) ---
+  // Ngưỡng chiều cao tối thiểu cho công thức (5 feet = 60 inches)
+  const minHeightInches = 60;
+  let ibwKg = null;
+
+  if (heightInInches >= minHeightInches) {
+    const inchesOver5Feet = heightInInches - minHeightInches;
+    if (sex === "male") {
+      ibwKg = 50 + 2.3 * inchesOver5Feet;
+    } else if (sex === "female") {
+      ibwKg = 45.5 + 2.3 * inchesOver5Feet;
+    }
+  } else {
+    // Xử lý trường hợp chiều cao dưới 5 feet (công thức Devine không áp dụng trực tiếp)
+    // Có thể dùng tỷ lệ hoặc một công thức khác, hoặc thông báo không phù hợp
+    noteEl.textContent =
+      "Công thức Devine thường áp dụng cho chiều cao từ 5 feet (152.4 cm) trở lên.";
+    // Ví dụ: Tính toán dựa trên BMI khỏe mạnh (ví dụ: BMI 21)
+    const heightInMeters = heightInInches * 0.0254;
+    ibwKg = 21 * (heightInMeters * heightInMeters); // Ước tính dựa trên BMI
+    // return; // Hoặc dừng lại nếu không muốn ước tính
+  }
+
+  if (ibwKg !== null && ibwKg > 0) {
+    const ibwLb = ibwKg * 2.20462; // Chuyển sang pounds nếu cần
+    resultEl.innerHTML = `Cân nặng lý tưởng (ước tính): <strong>${ibwKg.toFixed(
+      1
+    )} kg</strong> (${ibwLb.toFixed(1)} lb)`;
+
+    // Tính khoảng cân nặng +-10% (ví dụ)
+    const lowerBoundKg = ibwKg * 0.9;
+    const upperBoundKg = ibwKg * 1.1;
+    rangeInfoEl.textContent = `Một khoảng cân nặng tham khảo có thể là từ ${lowerBoundKg.toFixed(
+      1
+    )} kg đến ${upperBoundKg.toFixed(1)} kg.`;
+
+    if (!noteEl.textContent) {
+      // Chỉ thêm ghi chú nếu chưa có ghi chú về chiều cao
+      noteEl.textContent =
+        "Lưu ý: Đây chỉ là giá trị tham khảo dựa trên công thức Devine. Yếu tố khác như cấu trúc xương, cơ bắp có thể ảnh hưởng.";
+    }
+  } else if (!noteEl.textContent) {
+    // Nếu ibwKg không tính được và chưa có ghi chú
+    resultEl.textContent = "Không thể tính toán với thông tin đã nhập.";
+  }
+}
