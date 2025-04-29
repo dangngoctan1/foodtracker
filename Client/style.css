@@ -45,12 +45,23 @@ body::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffffff;
-  padding: 15px 50px;
+  /* background-color: #ffffff; */ /* Màu nền mặc định sẽ được đặt trong JS hoặc lớp khác */
+  padding: 10px 50px; /* Giảm padding mặc định một chút */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: padding 0.3s ease, background-color 0.3s ease; /* Thêm transition */
+}
+
+.navbar-top {
+  background-color: #7995b4b3; /* Màu nền khác khi ở trên cùng (ví dụ: màu xanh nhạt) */
+  padding: 30px 50px; /* Padding lớn hơn khi ở trên cùng */
+  box-shadow: none; /* Có thể bỏ bóng đổ khi ở trên cùng */
+}
+
+.navbar-scrolled {
+  background-color: #c3ff6e; /* Màu trắng khi cuộn xuống */
 }
 
 .logo {
@@ -1649,4 +1660,120 @@ body.night-mode .calculate-ibw-btn:hover {
 }
 body.night-mode .ibw-results-area {
   background-color: #4b5563; /* Nền tối hơn cho kết quả */
+}
+
+body,
+a,
+button {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-outline {
+  pointer-events: none; /* Đảm bảo con trỏ tùy chỉnh không cản trở tương tác */
+  position: fixed; /* Giữ vị trí cố định trên màn hình */
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  opacity: 0; /* Ẩn ban đầu cho đến khi JS khởi tạo */
+  transform: translate(-50%, -50%); /* Căn giữa chính xác */
+  z-index: 15000; /* Đảm bảo nằm trên các thành phần khác */
+  transition: opacity 0.3s ease-in-out, transform 0.1s ease-out; /* Hiệu ứng chuyển động */
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ff9500; /* Màu cam giống logo span */
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  background-color: rgba(
+    255,
+    149,
+    0,
+    0.3
+  ); /* Màu cam nhạt hơn với độ trong suốt */
+  /* Nếu muốn viền thay vì nền màu: */
+  /* border: 2px solid rgba(255, 149, 0, 0.5); */
+  /* background-color: transparent; */
+
+  /* Làm cho outline di chuyển chậm hơn một chút */
+  transition: opacity 0.3s ease-in-out, transform 0.15s ease-out,
+    width 0.2s ease-in-out, height 0.2s ease-in-out;
+}
+
+/* Hiệu ứng khi di chuột qua link hoặc button (tùy chọn) */
+body:has(a:hover, button:hover) .cursor-outline {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(
+    52,
+    199,
+    89,
+    0.3
+  ); /* Đổi màu thành xanh lá khi hover */
+  /* border-color: rgba(52, 199, 89, 0.5); */
+}
+
+body:has(a:hover, button:hover) .cursor-dot {
+  background-color: #34c759; /* Đổi màu chấm thành xanh lá khi hover */
+}
+
+/* Ẩn con trỏ tùy chỉnh trên thiết bị cảm ứng (tùy chọn) */
+@media (pointer: coarse) {
+  .cursor-dot,
+  .cursor-outline {
+    display: none;
+  }
+  /* Hiện lại con trỏ mặc định trên thiết bị cảm ứng */
+  body,
+  a,
+  button {
+    cursor: initial;
+  }
+}
+
+/* Điều chỉnh màu trong Night Mode */
+body.night-mode .cursor-dot {
+  background-color: #60a5fa; /* Màu xanh dương trong night mode */
+}
+body.night-mode .cursor-outline {
+  background-color: rgba(96, 165, 250, 0.3);
+  /* border-color: rgba(96, 165, 250, 0.5); */
+}
+body.night-mode:has(a:hover, button:hover) .cursor-outline {
+  background-color: rgba(
+    248,
+    113,
+    113,
+    0.3
+  ); /* Đổi màu hover trong night mode (ví dụ: đỏ nhạt) */
+  /* border-color: rgba(248, 113, 113, 0.5); */
+}
+
+body.night-mode:has(a:hover, button:hover) .cursor-dot {
+  background-color: #f87171; /* Đổi màu chấm hover trong night mode */
+}
+
+.navbar .logo,
+.navbar .nav-links,
+.navbar .auth {
+  transition: line-height 0.3s ease; /* Thêm transition nếu muốn chữ căn giữa mượt hơn */
+}
+
+.navbar-top .logo,
+.navbar-top .nav-links,
+.navbar-top .auth {
+  /* Có thể tăng line-height hoặc không cần nếu align-items đã đủ */
+}
+
+/* Điều chỉnh cho Night Mode */
+body.night-mode .navbar-top {
+  background-color: #7faeef; /* Màu nền tối hơn cho night mode khi ở top */
+}
+body.night-mode .navbar-scrolled {
+  background-color: #374151; /* Màu nền tối hơn cho night mode khi cuộn */
 }

@@ -601,6 +601,104 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   selectIbwSex("male"); // Đặt giới tính mặc định là nam
   selectIbwHeightUnit("cm"); // Đặt đơn vị chiều cao mặc định là cm
+
+  // --- Custom Cursor Logic ---
+  const cursorDot = document.querySelector(".cursor-dot");
+  const cursorOutline = document.querySelector(".cursor-outline");
+
+  // Biến lưu vị trí mục tiêu (vị trí chuột thực tế)
+  let targetX = 0;
+  let targetY = 0;
+
+  // Biến lưu vị trí hiện tại của con trỏ (để tạo hiệu ứng mượt)
+  let currentXDot = 0;
+  let currentYDot = 0;
+  let currentXOutline = 0;
+  let currentYOutline = 0;
+
+  // Hệ số làm mượt (số càng nhỏ càng mượt nhưng càng trễ)
+  const smoothFactorDot = 0.4; // Chấm di chuyển nhanh hơn
+  const smoothFactorOutline = 0.15; // Outline di chuyển chậm hơn
+
+  // Chỉ khởi tạo nếu không phải thiết bị cảm ứng
+  if (matchMedia("(pointer:fine)").matches) {
+    window.addEventListener("mousemove", (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+
+      // Hiển thị con trỏ khi chuột di chuyển lần đầu
+      if (cursorDot.style.opacity === "0") {
+        cursorDot.style.opacity = "1";
+        cursorOutline.style.opacity = "1";
+      }
+    });
+
+    // Hàm cập nhật vị trí liên tục để tạo hiệu ứng mượt
+    const animateCursor = () => {
+      // Tính toán vị trí mới dựa trên vị trí hiện tại và vị trí mục tiêu
+      currentXDot += (targetX - currentXDot) * smoothFactorDot;
+      currentYDot += (targetY - currentYDot) * smoothFactorDot;
+
+      currentXOutline += (targetX - currentXOutline) * smoothFactorOutline;
+      currentYOutline += (targetY - currentYOutline) * smoothFactorOutline;
+
+      // **** SỬA LỖI: Cập nhật top và left thay vì transform ****
+      cursorDot.style.left = `${currentXDot}px`;
+      cursorDot.style.top = `${currentYDot}px`;
+
+      cursorOutline.style.left = `${currentXOutline}px`;
+      cursorOutline.style.top = `${currentYOutline}px`;
+      // **** KẾT THÚC SỬA LỖI ****
+
+      // Lặp lại hàm này ở khung hình tiếp theo
+      requestAnimationFrame(animateCursor);
+    };
+
+    // Bắt đầu vòng lặp animation
+    animateCursor();
+
+    // Ẩn con trỏ khi chuột rời khỏi cửa sổ trình duyệt
+    document.addEventListener("mouseleave", () => {
+      cursorDot.style.opacity = "0";
+      cursorOutline.style.opacity = "0";
+    });
+
+    // Hiện lại con trỏ khi chuột quay lại cửa sổ trình duyệt
+    document.addEventListener("mouseenter", () => {
+      cursorDot.style.opacity = "1";
+      cursorOutline.style.opacity = "1";
+      // Đặt lại vị trí để tránh nhảy đột ngột nếu chuột vào từ cạnh khác
+      currentXDot = targetX;
+      currentYDot = targetY;
+      currentXOutline = targetX;
+      currentYOutline = targetY;
+    });
+  } else {
+    // Trên thiết bị cảm ứng, đảm bảo con trỏ tùy chỉnh bị ẩn hoàn toàn
+    if (cursorDot) cursorDot.style.display = "none";
+    if (cursorOutline) cursorOutline.style.display = "none";
+  }
+  // --- Navbar Scroll Effect Logic ---
+  const navbar = document.querySelector(".navbar");
+
+  const handleScroll = () => {
+    // Kiểm tra vị trí cuộn
+    if (window.scrollY === 0) {
+      // Ở trên cùng
+      navbar.classList.add("navbar-top");
+      navbar.classList.remove("navbar-scrolled");
+    } else {
+      // Đã cuộn xuống
+      navbar.classList.remove("navbar-top");
+      navbar.classList.add("navbar-scrolled");
+    }
+  };
+
+  // Thêm trình nghe sự kiện cuộn
+  window.addEventListener("scroll", handleScroll);
+
+  // Gọi hàm một lần khi tải trang để đặt trạng thái ban đầu
+  handleScroll();
 });
 
 function showBmiCalculator() {
