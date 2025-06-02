@@ -898,6 +898,7 @@ body::before {
   appearance: textfield;
   appearance: textfield;
   appearance: textfield;
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -1764,16 +1765,122 @@ body.night-mode:has(a:hover, button:hover) .cursor-dot {
   transition: line-height 0.3s ease; /* Thêm transition nếu muốn chữ căn giữa mượt hơn */
 }
 
-.navbar-top .logo,
-.navbar-top .nav-links,
-.navbar-top .auth {
-  /* Có thể tăng line-height hoặc không cần nếu align-items đã đủ */
-}
-
 /* Điều chỉnh cho Night Mode */
 body.night-mode .navbar-top {
   background-color: #7faeef; /* Màu nền tối hơn cho night mode khi ở top */
 }
 body.night-mode .navbar-scrolled {
   background-color: #374151; /* Màu nền tối hơn cho night mode khi cuộn */
+}
+
+.category {
+  position: relative; /* Bắt buộc để định vị .category-overlay bên trong */
+  overflow: hidden; /* Ẩn phần overlay trượt ra ngoài ban đầu */
+  /* cursor: pointer; Đã có sẵn */
+  transition: transform 0.3s ease; /* Giữ transition cũ nếu muốn */
+}
+
+.category-overlay {
+  position: absolute;
+  bottom: 0; /* Nằm ở dưới cùng */
+  left: 0;
+  width: 100%; /* Chiếm toàn bộ chiều rộng */
+  background-color: rgba(
+    30,
+    58,
+    138,
+    0.9
+  ); /* Màu nền xanh đậm, hơi trong suốt (giống màu chủ đề) */
+  color: #e5e7eb; /* Màu chữ sáng */
+  padding: 15px;
+  box-sizing: border-box; /* Padding không làm tăng kích thước tổng */
+  text-align: left; /* Căn chữ trái */
+
+  /* Trạng thái ban đầu: Ẩn bên dưới và trong suốt */
+  transform: translateY(100%); /* Đẩy xuống dưới bằng chính chiều cao của nó */
+  opacity: 0;
+  transition: transform 0.35s ease-in-out, opacity 0.35s ease-in-out; /* Hiệu ứng chuyển động mượt */
+  pointer-events: none; /* Quan trọng: Không chặn sự kiện hover của thẻ cha khi bị ẩn */
+}
+
+/* Khi hover vào .category */
+.category:hover .category-overlay {
+  /* Trạng thái hiển thị: Trượt lên và hiện rõ */
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto; /* Quan trọng: Cho phép tương tác (click link) khi hiện ra */
+}
+
+/* Định dạng nội dung bên trong overlay */
+.category-overlay h4 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.category-overlay p {
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  color: #d1d5db; /* Màu xám nhạt hơn */
+}
+
+.category-overlay a {
+  color: #93c5fd; /* Màu xanh dương nhạt làm điểm nhấn */
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: inline-block; /* Để dễ click hơn */
+  margin-top: 5px;
+}
+
+.category-overlay a:hover {
+  text-decoration: underline;
+  color: #ffffff;
+}
+
+/* --- Điều chỉnh hình ảnh và tiêu đề gốc khi hover --- */
+
+/* Làm mờ và thu nhỏ ảnh một chút khi overlay hiện ra */
+.category:hover img {
+  transform: scale(1.03); /* Thu nhỏ lại chút so với hiệu ứng cũ */
+  filter: brightness(0.7); /* Làm tối ảnh đi */
+  transition: transform 0.35s ease-in-out, filter 0.35s ease-in-out;
+}
+/* Thêm transition cho ảnh để quay về trạng thái cũ mượt hơn */
+.category img {
+  transition: transform 0.35s ease-in-out, filter 0.35s ease-in-out;
+}
+
+/* Ẩn tiêu đề gốc <p> khi overlay hiện ra */
+.category:hover > p {
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out; /* Ẩn nhanh */
+}
+/* Transition để tiêu đề gốc hiện lại mượt mà */
+.category > p {
+  transition: opacity 0.3s ease-in-out 0.1s; /* Hiện lại chậm hơn chút */
+}
+
+/* --- Điều chỉnh cho Night Mode --- */
+body.night-mode .category-overlay {
+  background-color: rgba(17, 24, 39, 0.92); /* Nền tối hơn cho night mode */
+  color: #d1d5db;
+}
+body.night-mode .category-overlay h4 {
+  color: #f0f0f0;
+}
+body.night-mode .category-overlay p {
+  color: #9ca3af;
+}
+body.night-mode .category-overlay a {
+  color: #f87171; /* Màu đỏ nhạt làm điểm nhấn trong night mode */
+}
+body.night-mode .category-overlay a:hover {
+  color: #fca5a5; /* Màu đỏ nhạt hơn khi hover */
+}
+body.night-mode .category:hover img {
+  filter: brightness(0.5); /* Làm tối ảnh nhiều hơn trong night mode */
 }
